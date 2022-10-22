@@ -3,7 +3,10 @@ const score =document.getElementById('score');
 const days = document.getElementById('days');
 const endScreen = document.getElementById('endScreen');
 
- virusPop();
+function start() {
+    count = 0;
+    score.innerHTML= count;
+}
 
 function virusPop() {
     let virus = new Image();
@@ -20,6 +23,23 @@ function virusPop() {
     virus.style.setProperty('--x', `${x}px`);
     virus.style.setProperty('--y', `${y}px`);
 
+    let plusMinus =Math.random() < 0.5 ? -1 : 1;
+    let trX = Math.random() * 500 * plusMinus;
+    let trY = Math.random() * 500 * plusMinus;
+    
+    virus.style.setProperty('--trX', `${trX}%`);
+    virus.style.setProperty('--trY', `${trY}%`);
+
     canvas.appendChild(virus);
     console.log(x);
 }
+
+document.addEventListener('click', function(e) {
+    let targetElement =e.target || e.srcElement;
+  if (targetElement.classList.contains('virus')){
+    targetElement.remove();
+    count++;
+    score.innerHTML = count;
+}
+});
+
