@@ -5,6 +5,8 @@ const endScreen = document.getElementById('endScreen');
 
 daysLeft = 60;
 gameOverNumber = 40;
+loopPlay = false;
+
 
 function start() {
     count = 0;
@@ -15,11 +17,13 @@ function start() {
     score.innerHTML= count;
     days.innerHTML= daysRemaining;
 
-game();
+loopPlay ? '' : game();
+loopPlay=true;
 
     function game() {
         let randomTime = Math.round(Math.random() * getFaster);
-        setTimeout(() => {
+        getFaster > 700 ? getFaster = (getFaster * 0.90)    : '';
+            setTimeout(() => {
             virusPop();
             game();
 
