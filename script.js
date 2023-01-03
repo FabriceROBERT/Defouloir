@@ -18,17 +18,40 @@ function start() {
     days.innerHTML= daysRemaining;
 
 loopPlay ? '' : game();
-loopPlay=true;
+loopPlay=true; 
 
     function game() {
         let randomTime = Math.round(Math.random() * getFaster);
         getFaster > 700 ? getFaster = (getFaster * 0.90)    : '';
             setTimeout(() => {
-            virusPop();
-            game();
-
+                if (daysRemaining === 0){
+                youWin();    
+                } else if (canvas.childElementCount < gameOverNumber) {
+                    virusPop();  
+                     game();  
+                } else {
+                    gameOver();
+                }
+           
         }, randomTime);
     };
+
+const gameOver = () => {
+endScreen.innerHTML = `<div class="gameOver">Game Over <br/>score : ${count}
+<div/>`;
+endScreen.style.visibility = 'visible';
+endScreen.style.opacity = '1';
+loopPlay = false;
+
+};
+
+const youWin = () => {
+    let accuracy = Math.round(count/daysLeft * 100);
+    endScreen.innerHTML= `<div class="youWin">bravo ! Tu as atomisé cette merde <br/><span>précision : ${accuracy}%</span></div>`;
+    endScreen.style.visibility = 'visible';
+endScreen.style.opacity = '1';
+loopPlay = false;
+}
 }
 
 function virusPop() {
@@ -66,3 +89,19 @@ document.addEventListener('click', function(e) {
 }
 });
 
+canvas.addEventListener('click', () => {
+    if (daysRemaining > 0) {
+        daysRemaining--;
+        days.innerHTML = daysRemaining;
+    }
+});
+
+endScreen.addEventListener('click', () => {
+    setTimeout(() => {
+
+   
+    start();
+    endScreen.style.opacity ='0';
+    endScreen.style.visibility = 'hidden'; 
+},3500)
+});
